@@ -1,0 +1,28 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    androidCompileSdkVersion = 26
+    androidBuildToolsVersion = "26.0.0"
+
+    androidApplicationId = 'com.pavelsemak.weatherapp'
+    androidMinSdkVersion = 14
+    androidTargetSdkVersion = 26
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+    supportDependencies = [
+            appcompat       : "com.android.support:appcompat-v7:26.0.0-alpha1",
+            constraintLayout: "com.android.support.constraint:constraint-layout:1.0.2",
+            design          : "com.android.support:design:26.0.0-alpha1"
+    ]
+
+    testDependencies = [
+            junit   : "junit:junit:4.12",
+            espresso: "com.android.support.test.espresso:espresso-core:2.2.2"
+    ]
+}
