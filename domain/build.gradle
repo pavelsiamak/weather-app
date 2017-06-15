@@ -15,5 +15,11 @@ sourceSets {
     }
 }
 dependencies {
+    def otherDependencies = rootProject.ext.otherDependencies
+
+    compile otherDependencies.rxJava
+
+    provided otherDependencies.javaxAnnotation
+    compile otherDependencies.javaxInject
 }
 

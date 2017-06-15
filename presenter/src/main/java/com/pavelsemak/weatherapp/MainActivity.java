@@ -9,12 +9,18 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.pavelsemak.weatherapp.di.components.ApplicationComponent;
+import com.pavelsemak.weatherapp.domain.repository.WeatherRepository;
+
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.getApplicationComponent().inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,5 +54,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected ApplicationComponent getApplicationComponent() {
+        return ((WeatherApplication) getApplication()).getApplicationComponent();
     }
 }

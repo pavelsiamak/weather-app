@@ -41,12 +41,26 @@ android {
 }
 
 dependencies {
-    def supportDependencies = rootProject.ext.supportDependencies
+    def androidDependencies = rootProject.ext.androidDependencies
+    def otherDependencies = rootProject.ext.otherDependencies
     def testDependencies = rootProject.ext.testDependencies
 
     compile project(':domain')
 
-    compile supportDependencies.appcompat
+    compile androidDependencies.appcompat
+
+    compile otherDependencies.rxJava
+    compile otherDependencies.rxAndroid
+
+    provided otherDependencies.javaxAnnotation
+    compile otherDependencies.javaxInject
+
+    compile otherDependencies.retrofit
+    compile otherDependencies.retrofitAdapter
+    compile otherDependencies.retrofitConverter
+    compile otherDependencies.jakewhartonRetrofit
+    compile otherDependencies.okhttp
+    compile otherDependencies.loggingInterceptor
 
     androidTestCompile testDependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'

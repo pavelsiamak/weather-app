@@ -23,6 +23,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -33,15 +37,23 @@ android {
 }
 
 dependencies {
-    def supportDependencies = rootProject.ext.supportDependencies
+    def androidDependencies = rootProject.ext.androidDependencies
+    def otherDependencies = rootProject.ext.otherDependencies
     def testDependencies = rootProject.ext.testDependencies
 
     compile project(':domain')
     compile project(':data')
 
-    compile supportDependencies.appcompat
-    compile supportDependencies.constraintLayout
-    compile supportDependencies.design
+    compile androidDependencies.appcompat
+    compile androidDependencies.constraintLayout
+    compile androidDependencies.design
+
+    compile otherDependencies.rxJava
+    compile otherDependencies.rxAndroid
+
+    annotationProcessor otherDependencies.daggerCompiler
+    compile otherDependencies.dagger
+    provided otherDependencies.javaxAnnotation
 
     androidTestCompile testDependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
