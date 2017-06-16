@@ -10,11 +10,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pavelsemak.weatherapp.di.components.ApplicationComponent;
-import com.pavelsemak.weatherapp.domain.repository.WeatherRepository;
+import com.pavelsemak.weatherapp.domain.interactor.GetWeather;
+import com.pavelsemak.weatherapp.domain.model.WeatherModel;
 
 import javax.inject.Inject;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableObserver;
+
 public class MainActivity extends AppCompatActivity {
+
+    //TODO just for testing
+    @Inject
+    GetWeather getWeatherUseCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                //TODO just for testing
+                getWeatherUseCase.execute(new DisposableObserver<WeatherModel>() {
+                    @Override
+                    public void onNext(@NonNull WeatherModel weatherModel) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }, GetWeather.Params.forWeather(53.9045f, 27.5615f));
             }
         });
     }

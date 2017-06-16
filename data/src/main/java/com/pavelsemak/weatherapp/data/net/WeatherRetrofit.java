@@ -1,34 +1,35 @@
-package com.pavelsemak.weatherapp.data.repository.net;
+package com.pavelsemak.weatherapp.data.net;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.pavelsemak.weatherapp.data.model.WeatherResponse;
+import com.pavelsemak.weatherapp.data.utils.Constant;
 
 import javax.inject.Inject;
-
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class WeatherRetrofit {
 
     private Retrofit retrofit;
 
     @Inject
-    RetrofitClient() {
+    WeatherRetrofit() {
         this.createClient();
     }
 
     private void createClient() {
         Gson gson = new GsonBuilder().create();
 
-        RxJava2CallAdapterFactory rxAdapter = RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io());
+        RxJava2CallAdapterFactory rxAdapter = RxJava2CallAdapterFactory.create();
 
         OkHttpClient client = new OkHttpClient.Builder().build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.google.com")
+                .baseUrl(Constant.BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(rxAdapter)
@@ -38,4 +39,5 @@ public class RetrofitClient {
     public Retrofit getRetrofit() {
         return retrofit;
     }
+
 }

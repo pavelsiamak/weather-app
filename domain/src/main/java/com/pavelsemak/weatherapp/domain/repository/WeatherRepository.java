@@ -1,12 +1,10 @@
 package com.pavelsemak.weatherapp.domain.repository;
 
-import com.pavelsemak.weatherapp.domain.WeatherEntity;
-
-import java.util.List;
+import com.pavelsemak.weatherapp.domain.model.WeatherModel;
 
 import io.reactivex.Observable;
 
 public interface WeatherRepository {
 
-    Observable<List<WeatherEntity>> getWeatherList();
+    Observable<WeatherModel> getWeather(String locationString);
 }
