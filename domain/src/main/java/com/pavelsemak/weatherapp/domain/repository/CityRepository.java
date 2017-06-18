@@ -10,4 +10,6 @@ public interface CityRepository {
     Observable<List<CityModel>> getSavedCities();
 
     Observable<Boolean> updateCurrentCity();
+
+    Observable<Boolean> addCity(CityModel cityModel);
 }

@@ -1,6 +1,9 @@
 package com.pavelsemak.weatherapp.di.components;
 
-import com.pavelsemak.weatherapp.MainActivity;
+import com.pavelsemak.weatherapp.domain.interactor.GetCities;
+import com.pavelsemak.weatherapp.domain.interactor.GetWeather;
+import com.pavelsemak.weatherapp.view.CityListFragment;
+import com.pavelsemak.weatherapp.view.MainActivity;
 import com.pavelsemak.weatherapp.di.modules.ApplicationModule;
 import com.pavelsemak.weatherapp.domain.executor.PostExecutionThread;
 import com.pavelsemak.weatherapp.domain.executor.ThreadExecutor;
@@ -14,7 +17,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
-    void inject(MainActivity baseActivity);
+    void inject(MainActivity mainActivity);
 
     WeatherRepository weatherRepository();
     CityRepository cityRepositoty();

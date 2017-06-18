@@ -1,7 +1,7 @@
 package com.pavelsemak.weatherapp.data.repository.factory;
 
 import com.pavelsemak.weatherapp.data.client.WeatherClient;
-import com.pavelsemak.weatherapp.data.net.WeatherRetrofit;
+import com.pavelsemak.weatherapp.data.client.net.WeatherRetrofit;
 
 import javax.inject.Inject;
 

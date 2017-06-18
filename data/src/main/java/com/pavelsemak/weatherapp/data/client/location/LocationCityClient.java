@@ -1,4 +1,4 @@
-package com.pavelsemak.weatherapp.data.location;
+package com.pavelsemak.weatherapp.data.client.location;
 
 import android.Manifest;
 import android.content.Context;
@@ -9,11 +9,10 @@ import android.location.Location;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.pavelsemak.weatherapp.data.client.CurrentCityClient;
 import com.pavelsemak.weatherapp.data.db.CityData;
@@ -22,6 +21,8 @@ import com.pavelsemak.weatherapp.data.db.DBHelper;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -47,40 +48,58 @@ public class LocationCityClient implements CurrentCityClient {
     private void getLastLocation(Emitter<Boolean> emitter) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            emitter.onError(new RuntimeException("Location permissions not granted"));
+            emitter.onNext(false);
             return;
         }
 
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
-        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                getCityByLocation(emitter, location);
+        CountDownLatch latch = new CountDownLatch(1);
+        WaitableLocationListener waitableLocationListener = new WaitableLocationListener(latch);
+        fusedLocationClient.getLastLocation().addOnSuccessListener(waitableLocationListener);
+        try {
+            if (latch.await(3000, TimeUnit.MILLISECONDS)) {
+                Location location = waitableLocationListener.getLocation();
+                if (location != null) {
+                    getCityByLocation(emitter, location);
+                } else {
+                    requestLocationUpdates(fusedLocationClient, emitter);
+                }
             } else {
-                requestLocationUpdates(fusedLocationClient, emitter);
+                emitter.onNext(false);
             }
-        }).addOnFailureListener(e -> emitter.onError(new RuntimeException("Error receiving location")));
-
+        } catch (InterruptedException e) {
+            emitter.onNext(false);
+        }
     }
 
     private void requestLocationUpdates(FusedLocationProviderClient fusedLocationClient, Emitter<Boolean> emitter) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            emitter.onError(new RuntimeException("Location permissions not granted"));
+            emitter.onNext(false);
             return;
         }
 
         LocationRequest locationRequest = createLocationRequest();
         Looper looper = createLooper();
 
-        fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                getCityByLocation(emitter, locationResult.getLastLocation());
-                fusedLocationClient.removeLocationUpdates(this);
+        CountDownLatch latch = new CountDownLatch(1);
+        WaitableLocationCallback waitableLocationCallback = new WaitableLocationCallback(latch);
+        fusedLocationClient.requestLocationUpdates(locationRequest, waitableLocationCallback, looper);
+        try {
+            if (latch.await(3000, TimeUnit.MILLISECONDS)) {
+                Location location = waitableLocationCallback.getLocation();
+                if (location != null) {
+                    getCityByLocation(emitter, location);
+                } else {
+                    emitter.onNext(false);
+                }
+            } else {
+                emitter.onNext(false);
             }
-        }, looper);
+        } catch (InterruptedException e) {
+            emitter.onNext(false);
+        }
     }
 
     private void getCityByLocation(Emitter<Boolean> emitter, Location location) {
@@ -101,18 +120,18 @@ public class LocationCityClient implements CurrentCityClient {
                 emitter.onNext(true);
                 emitter.onComplete();
             } else {
-                emitter.onError(new RuntimeException("Address not found"));
+                emitter.onNext(false);
             }
         } catch (IOException e) {
-            emitter.onError(new RuntimeException("Geocoder error"));
+            emitter.onNext(false);
         }
     }
 
     private LocationRequest createLocationRequest() {
         return LocationRequest.create()
-                .setInterval(60000)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setFastestInterval(10000);
+                .setExpirationDuration(3000)
+                .setNumUpdates(1)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     private Looper createLooper() {

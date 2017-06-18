@@ -1,13 +1,16 @@
 package com.pavelsemak.weatherapp.data.repository;
 
+import android.os.Looper;
+import android.util.Log;
+
 import com.pavelsemak.weatherapp.data.client.CurrentCityClient;
-import com.pavelsemak.weatherapp.data.db.CityData;
-import com.pavelsemak.weatherapp.data.mapper.CityResponseMapper;
+import com.pavelsemak.weatherapp.data.client.SavedCityClient;
+import com.pavelsemak.weatherapp.data.mapper.CityDataMapper;
+import com.pavelsemak.weatherapp.data.mapper.CityModelMapper;
 import com.pavelsemak.weatherapp.data.repository.factory.CityClientFactory;
 import com.pavelsemak.weatherapp.domain.model.CityModel;
 import com.pavelsemak.weatherapp.domain.repository.CityRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,24 +20,32 @@ import io.reactivex.Observable;
 public class CityDataRepository implements CityRepository {
 
     private CityClientFactory cityClientFactory;
-    private CityResponseMapper cityResponseMapper;
+    private CityDataMapper cityDataMapper;
+    private CityModelMapper cityModelMapper;
 
     @Inject
-    CityDataRepository(CityClientFactory cityClientFactory, CityResponseMapper cityResponseMapper) {
+    CityDataRepository(CityClientFactory cityClientFactory, CityDataMapper cityDataMapper, CityModelMapper cityModelMapper) {
         this.cityClientFactory = cityClientFactory;
-        this.cityResponseMapper = cityResponseMapper;
+        this.cityDataMapper = cityDataMapper;
+        this.cityModelMapper = cityModelMapper;
 
     }
 
     @Override
     public Observable<List<CityModel>> getSavedCities() {
-        CurrentCityClient currentCityClient = cityClientFactory.createCurrentCityClient();
-        return Observable.just(new ArrayList<CityData>()).map(cityResponseMapper::transform);
+        SavedCityClient savedCityClient = cityClientFactory.createSavedCityClient();
+        return savedCityClient.getSavedCities().map(cityDataMapper::transform);
     }
 
     @Override
     public Observable<Boolean> updateCurrentCity() {
         CurrentCityClient currentCityClient = cityClientFactory.createCurrentCityClient();
         return currentCityClient.updateCurrentCity();
+    }
+
+    @Override
+    public Observable<Boolean> addCity(CityModel cityModel) {
+        SavedCityClient savedCityClient = cityClientFactory.createSavedCityClient();
+        return savedCityClient.addCity(cityModelMapper.transform(cityModel));
     }
 }

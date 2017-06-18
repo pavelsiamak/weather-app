@@ -19,10 +19,16 @@ ext {
             appcompat           : "com.android.support:appcompat-v7:26.0.0-alpha1",
             constraintLayout    : "com.android.support.constraint:constraint-layout:1.0.2",
             design              : "com.android.support:design:26.0.0-alpha1",
+
             playServicesPlaces  : "com.google.android.gms:play-services-places:11.0.1",
             playServicesLocation: "com.google.android.gms:play-services-location:11.0.1",
+
             roomi               : "android.arch.persistence.room:runtime:1.0.0-alpha3",
-            roomiCompiler       : "android.arch.persistence.room:compiler:1.0.0-alpha3"
+            roomiCompiler       : "android.arch.persistence.room:compiler:1.0.0-alpha3",
+
+            lifeCycle           : "android.arch.lifecycle:runtime:1.0.0-alpha3",
+            lifeCycleExt        : "android.arch.lifecycle:extensions:1.0.0-alpha3",
+            lifeCycleCompiler   : "android.arch.lifecycle:compiler:1.0.0-alpha3"
     ]
 
     otherDependencies = [

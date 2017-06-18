@@ -11,10 +11,10 @@ import java.util.List;
 @Dao
 public interface CityDao {
 
-    @Query("SELECT * FROM cityData ORDERBY timestamp ASC")
+    @Query("SELECT * FROM cityData ORDER BY timestamp ASC")
     List<CityData> getSavedCities();
 
-    @Query("SELECT MIN(timestamp) FROM cityData")
+    @Query("SELECT * FROM cityData ORDER BY timestamp ASC LIMIT 1")
     CityData getFirstCity();
 
     @Insert

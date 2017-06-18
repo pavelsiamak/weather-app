@@ -8,10 +8,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class CityResponseMapper {
+public class CityDataMapper {
 
     @Inject
-    CityResponseMapper() {}
+    CityDataMapper() {}
 
     public List<CityModel> transform(List<CityData> cityDataList) {
         List<CityModel> cityModelList = new ArrayList<>();
