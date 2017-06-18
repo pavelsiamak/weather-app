@@ -16,29 +16,33 @@ ext {
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
     androidDependencies = [
-            appcompat       : "com.android.support:appcompat-v7:26.0.0-alpha1",
-            constraintLayout: "com.android.support.constraint:constraint-layout:1.0.2",
-            design          : "com.android.support:design:26.0.0-alpha1"
+            appcompat           : "com.android.support:appcompat-v7:26.0.0-alpha1",
+            constraintLayout    : "com.android.support.constraint:constraint-layout:1.0.2",
+            design              : "com.android.support:design:26.0.0-alpha1",
+            playServicesPlaces  : "com.google.android.gms:play-services-places:11.0.1",
+            playServicesLocation: "com.google.android.gms:play-services-location:11.0.1",
+            roomi               : "android.arch.persistence.room:runtime:1.0.0-alpha3",
+            roomiCompiler       : "android.arch.persistence.room:compiler:1.0.0-alpha3"
     ]
 
     otherDependencies = [
-            rxJava:             "io.reactivex.rxjava2:rxjava:2.1.0",
-            rxAndroid:          "io.reactivex.rxjava2:rxandroid:2.0.1",
+            rxJava             : "io.reactivex.rxjava2:rxjava:2.1.0",
+            rxAndroid          : "io.reactivex.rxjava2:rxandroid:2.0.1",
 
-            daggerCompiler:     "com.google.dagger:dagger-compiler:2.11",
-            dagger:             "com.google.dagger:dagger:2.11",
+            daggerCompiler     : "com.google.dagger:dagger-compiler:2.11",
+            dagger             : "com.google.dagger:dagger:2.11",
 
-            javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
-            javaxInject:        "javax.inject:javax.inject:1",
+            javaxAnnotation    : "javax.annotation:jsr250-api:1.0",
+            javaxInject        : "javax.inject:javax.inject:1",
 
-            findbugs:    "com.google.code.findbugs:jsr305:3.0.1",
+            findbugs           : "com.google.code.findbugs:jsr305:3.0.1",
 
-            retrofit: 'com.squareup.retrofit2:retrofit:2.3.0',
-            retrofitAdapter: 'com.squareup.retrofit2:adapter-rxjava:2.3.0',
-            retrofitConverter: 'com.squareup.retrofit2:converter-gson:2.3.0',
+            retrofit           : 'com.squareup.retrofit2:retrofit:2.3.0',
+            retrofitAdapter    : 'com.squareup.retrofit2:adapter-rxjava:2.3.0',
+            retrofitConverter  : 'com.squareup.retrofit2:converter-gson:2.3.0',
             jakewhartonRetrofit: 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0',
-            okhttp: 'com.squareup.okhttp3:okhttp:3.8.0',
-            loggingInterceptor: 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+            okhttp             : 'com.squareup.okhttp3:okhttp:3.8.0',
+            loggingInterceptor : 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     ]
 
     testDependencies = [

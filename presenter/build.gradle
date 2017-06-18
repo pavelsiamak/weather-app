@@ -47,6 +47,8 @@ dependencies {
     compile androidDependencies.appcompat
     compile androidDependencies.constraintLayout
     compile androidDependencies.design
+    compile androidDependencies.playServicesPlaces
+    compile androidDependencies.playServicesLocation
 
     compile otherDependencies.rxJava
     compile otherDependencies.rxAndroid

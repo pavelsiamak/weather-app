@@ -1,6 +1,6 @@
 package com.pavelsemak.weatherapp.data.repository;
 
-import com.pavelsemak.weatherapp.data.net.WeatherClient;
+import com.pavelsemak.weatherapp.data.client.WeatherClient;
 import com.pavelsemak.weatherapp.data.repository.factory.WeatherClientFactory;
 import com.pavelsemak.weatherapp.data.mapper.WeatherResponseMapper;
 import com.pavelsemak.weatherapp.domain.model.WeatherModel;

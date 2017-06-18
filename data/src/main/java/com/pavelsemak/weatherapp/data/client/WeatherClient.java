@@ -1,4 +1,4 @@
-package com.pavelsemak.weatherapp.data.net;
+package com.pavelsemak.weatherapp.data.client;
 
 import com.pavelsemak.weatherapp.data.model.WeatherResponse;
 import com.pavelsemak.weatherapp.data.utils.Constant;

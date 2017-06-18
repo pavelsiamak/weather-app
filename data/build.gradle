@@ -48,6 +48,10 @@ dependencies {
     compile project(':domain')
 
     compile androidDependencies.appcompat
+    compile androidDependencies.playServicesPlaces
+    compile androidDependencies.playServicesLocation
+    compile androidDependencies.roomi
+    annotationProcessor androidDependencies.roomiCompiler
 
     compile otherDependencies.rxJava
     compile otherDependencies.rxAndroid
