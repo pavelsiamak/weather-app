@@ -32,15 +32,15 @@ public class GetWeather extends UseCase<WeatherModel, GetWeather.Params> {
     }
 
     public static final class Params {
-        private final float latitude;
-        private final float longitude;
+        private final double latitude;
+        private final double longitude;
 
-        private Params(float latitude, float longitude) {
+        private Params(double latitude, double longitude) {
             this.latitude = latitude;
             this.longitude = longitude;
         }
 
-        public static Params forWeather(float latitude, float longitude) {
+        public static Params forWeather(double latitude, double longitude) {
             return new Params(latitude, longitude);
         }
     }

@@ -1,8 +1,5 @@
 package com.pavelsemak.weatherapp.di.components;
 
-import com.pavelsemak.weatherapp.domain.interactor.GetCities;
-import com.pavelsemak.weatherapp.domain.interactor.GetWeather;
-import com.pavelsemak.weatherapp.view.CityListFragment;
 import com.pavelsemak.weatherapp.view.MainActivity;
 import com.pavelsemak.weatherapp.di.modules.ApplicationModule;
 import com.pavelsemak.weatherapp.domain.executor.PostExecutionThread;

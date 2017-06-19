@@ -3,8 +3,8 @@ package com.pavelsemak.weatherapp.domain.model;
 import java.util.List;
 
 public class WeatherModel {
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
     private WeatherItemModel currently;
     private List<WeatherItemModel> hourly;
@@ -34,19 +34,19 @@ public class WeatherModel {
         this.daily = daily;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

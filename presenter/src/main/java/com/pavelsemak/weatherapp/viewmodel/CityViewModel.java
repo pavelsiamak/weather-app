@@ -2,7 +2,6 @@ package com.pavelsemak.weatherapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.google.android.gms.location.places.Place;
 import com.pavelsemak.weatherapp.di.PerActivity;
@@ -25,6 +24,7 @@ import io.reactivex.observers.DisposableObserver;
 public class CityViewModel extends ViewModel {
 
     private MutableLiveData<DataWrapper<List<City>>> citiesLiveData;
+    private MutableLiveData<Integer> activeCityIndex;
 
     @Inject
     GetCities getCitiesUseCase;
@@ -44,6 +44,14 @@ public class CityViewModel extends ViewModel {
             loadCities();
         }
         return citiesLiveData;
+    }
+
+    public MutableLiveData<Integer> getActiveCityIndex() {
+        if (activeCityIndex == null) {
+            activeCityIndex = new MutableLiveData<>();
+            activeCityIndex.setValue(0);
+        }
+        return activeCityIndex;
     }
 
     private void loadCities() {
@@ -85,5 +93,9 @@ public class CityViewModel extends ViewModel {
             public void onComplete() {
             }
         }, AddCity.Params.forNewCity(placeMapper.transform(place)));
+    }
+
+    public void onActiveCityIndexChanged(int index) {
+        getActiveCityIndex().setValue(index);
     }
 }

@@ -62,6 +62,9 @@ dependencies {
     compile otherDependencies.dagger
     provided otherDependencies.javaxAnnotation
 
+    compile otherDependencies.butterknife
+    annotationProcessor otherDependencies.butterknifeCompiler
+
     androidTestCompile testDependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }

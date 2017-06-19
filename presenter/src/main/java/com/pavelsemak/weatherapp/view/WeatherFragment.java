@@ -1,44 +1,36 @@
 package com.pavelsemak.weatherapp.view;
 
-import android.Manifest;
-import android.app.Activity;
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.pavelsemak.weatherapp.R;
+import com.pavelsemak.weatherapp.adapter.WeatherPagerAdapter;
 import com.pavelsemak.weatherapp.model.City;
-import com.pavelsemak.weatherapp.viewmodel.CityViewModel;
-import com.pavelsemak.weatherapp.wrapper.DataWrapper;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class WeatherFragment extends LifecycleFragment {
+public class WeatherFragment extends BaseCityFragment {
 
-    public static final int PLACES_REQUEST_CODE = 1;
-    public static final int LOCATION_PERMISSIONS_REQUEST = 2;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
 
-    @Inject
-    CityViewModel cityViewModel;
+    @BindView(R.id.fab_open_cities)
+    FloatingActionButton floatingActionButton;
 
-    public WeatherFragment() {
-    }
+    @BindView(R.id.progress_weather)
+    ViewGroup progressBar;
+
+    private WeatherPagerAdapter weatherPagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,70 +43,74 @@ public class WeatherFragment extends LifecycleFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_weather_layout, container, false);
+        ButterKnife.bind(this, view);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCityListFragment();
+            }
+        });
+
+        return view;
+    }
+
+    public void openCityListFragment() {
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new CityListFragment())
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        weatherPagerAdapter = new WeatherPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(weatherPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                cityViewModel.onActiveCityIndexChanged(position);
+            }
+        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    LOCATION_PERMISSIONS_REQUEST);
-            return;
-        } else {
-            startObservingCities();
-        }
+        startObservingActiveCityIndex();
     }
 
-    private void startObservingCities() {
-        cityViewModel.getCities().observe(this, new Observer<DataWrapper<List<City>>>() {
+    @Override
+    public void onCitiesReceived(List<City> cityList) {
+        weatherPagerAdapter.setData(cityList);
+    }
+
+    public void startObservingActiveCityIndex() {
+        cityViewModel.getActiveCityIndex().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(@Nullable DataWrapper<List<City>> dataWrapper) {
-                if (dataWrapper != null && dataWrapper.getData() != null
-                        && dataWrapper.getError() == null) {
-                    //TODO show cities
-                    Log.e("asdkljfsdlkjfds", "asdkjklfsdjsdf_" + dataWrapper.getData().get(0).getName());
-                } else {
-                    openPlaceSearch();
+            public void onChanged(@Nullable Integer index) {
+                if (index != null) {
+                    viewPager.setCurrentItem(index);
                 }
             }
         });
     }
 
-    private void openPlaceSearch() {
-        try {
-            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(getActivity());
-            startActivityForResult(intent, PLACES_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-            onErrorDetectingCity();
-        }
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACES_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
-                cityViewModel.onNewPlaceReceived(place);
-            } else {
-                onErrorDetectingCity();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_PERMISSIONS_REQUEST) {
-            startObservingCities();
-        }
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
     public void onErrorDetectingCity() {
-        Toast.makeText(getContext(), "Unable to detect your city", Toast.LENGTH_LONG).show();
-        getActivity().finish();
+        Toast.makeText(getContext(), "Unable to detect the city", Toast.LENGTH_LONG).show();
+        goBack();
     }
 }

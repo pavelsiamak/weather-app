@@ -48,7 +48,10 @@ ext {
             retrofitConverter  : 'com.squareup.retrofit2:converter-gson:2.3.0',
             jakewhartonRetrofit: 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0',
             okhttp             : 'com.squareup.okhttp3:okhttp:3.8.0',
-            loggingInterceptor : 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+            loggingInterceptor : 'com.squareup.okhttp3:logging-interceptor:3.8.0',
+
+            butterknife        : "com.jakewharton:butterknife:8.6.0",
+            butterknifeCompiler: "com.jakewharton:butterknife-compiler:8.6.0"
     ]
 
     testDependencies = [
