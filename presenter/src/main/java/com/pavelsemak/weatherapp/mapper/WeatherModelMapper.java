@@ -15,6 +15,8 @@ import javax.inject.Inject;
 @PerActivity
 public class WeatherModelMapper {
 
+    public static final int PERCENT = 100;
+
     @Inject
     WeatherModelMapper() {}
 
@@ -23,24 +25,25 @@ public class WeatherModelMapper {
 
         weather.setLatitude(weatherModel.getLatitude());
         weather.setLongitude(weatherModel.getLongitude());
+        weather.setOffset(weatherModel.getOffset());
 
         WeatherItemModel currentItemModel = weatherModel.getCurrently();
         weather.setTime(currentItemModel.getTime());
         weather.setSummary(currentItemModel.getSummary());
         weather.setIcon(currentItemModel.getIcon());
-        weather.setTemperature(currentItemModel.getTemperature());
-        weather.setPrecipProbability(currentItemModel.getPrecipProbability());
-        weather.setHumidity(currentItemModel.getHumidity());
-        weather.setWindSpeed(currentItemModel.getWindSpeed());
-        weather.setApparentTemperature(currentItemModel.getApparentTemperature());
-        weather.setPrecipIntensity(currentItemModel.getPrecipIntensity());
-        weather.setPressure(currentItemModel.getPressure());
-        weather.setUvIndex(currentItemModel.getUvIndex());
+        weather.setTemperature((int) currentItemModel.getTemperature());
+        weather.setPrecipProbability((int) (currentItemModel.getPrecipProbability() * PERCENT));
+        weather.setHumidity((int) (currentItemModel.getHumidity() * PERCENT));
+        weather.setWindSpeed((int) currentItemModel.getWindSpeed());
+        weather.setApparentTemperature((int) currentItemModel.getApparentTemperature());
+        weather.setPrecipIntensity((int) currentItemModel.getPrecipIntensity());
+        weather.setPressure((int) currentItemModel.getPressure());
+        weather.setUvIndex((int) currentItemModel.getUvIndex());
 
         if (weatherModel.getDaily() != null && weatherModel.getDaily().size() != 0) {
             WeatherItemModel todayItemModel = weatherModel.getDaily().get(0);
-            weather.setTemperatureMin(todayItemModel.getTemperatureMin());
-            weather.setTemperatureMax(todayItemModel.getTemperatureMax());
+            weather.setTemperatureMin((int) todayItemModel.getTemperatureMin());
+            weather.setTemperatureMax((int) todayItemModel.getTemperatureMax());
             weather.setSunriseTime(todayItemModel.getSunriseTime());
             weather.setSunsetTime(todayItemModel.getSunsetTime());
         }
@@ -50,8 +53,9 @@ public class WeatherModelMapper {
             WeatherItemHour weatherItemHour = new WeatherItemHour();
             weatherItemHour.setTime(hourItemModel.getTime());
             weatherItemHour.setIcon(hourItemModel.getIcon());
-            weatherItemHour.setPrecipProbability(hourItemModel.getPrecipProbability());
-            weatherItemHour.setTemperature(hourItemModel.getTemperature());
+            weatherItemHour.setHumidity((int) (hourItemModel.getHumidity() * PERCENT));
+            weatherItemHour.setTemperature((int) hourItemModel.getTemperature());
+            weatherItemHourList.add(weatherItemHour);
         }
         weather.setHourly(weatherItemHourList);
 
@@ -60,8 +64,11 @@ public class WeatherModelMapper {
             WeatherItemDay weatherItemDay = new WeatherItemDay();
             weatherItemDay.setTime(dayItemModel.getTime());
             weatherItemDay.setIcon(dayItemModel.getIcon());
-            weatherItemDay.setTemperatureMin(dayItemModel.getTemperatureMin());
-            weatherItemDay.setTemperatureMax(dayItemModel.getTemperatureMax());
+            weatherItemDay.setTemperatureMin((int) dayItemModel.getTemperatureMin());
+            weatherItemDay.setTemperatureMax((int) dayItemModel.getTemperatureMax());
+            weatherItemDay.setSunrise(dayItemModel.getSunriseTime());
+            weatherItemDay.setSunset(dayItemModel.getSunsetTime());
+            weatherItemDayList.add(weatherItemDay);
         }
         weather.setDaily(weatherItemDayList);
 

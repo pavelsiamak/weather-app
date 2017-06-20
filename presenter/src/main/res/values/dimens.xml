@@ -1,3 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="weather_margin">8dp</dimen>
+    <dimen name="weather_padding">8dp</dimen>
+
+    <dimen name="item_city_horizontal_padding">20dip</dimen>
+    <dimen name="item_city_vertical_padding">10dip</dimen>
 </resources>

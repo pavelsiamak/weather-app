@@ -6,6 +6,9 @@ public class Weather {
 
     private List<WeatherItemHour> hourly;
     private List<WeatherItemDay> daily;
+    private List<String> infoList;
+
+    private float offset;
 
     private double latitude;
     private double longitude;
@@ -14,23 +17,39 @@ public class Weather {
     private String summary;
     private String icon;
 
-    private float temperature;
-    private float temperatureMin;
-    private float temperatureMax;
+    private int temperature;
+    private int temperatureMin;
+    private int temperatureMax;
 
     private long sunriseTime;
     private long sunsetTime;
 
-    private float precipProbability;
-    private float humidity;
+    private int precipProbability;
+    private int humidity;
 
-    private float windSpeed;
-    private float apparentTemperature;
+    private int windSpeed;
+    private int apparentTemperature;
 
-    private float precipIntensity;
-    private float pressure;
+    private int precipIntensity;
+    private int pressure;
 
-    private float uvIndex;
+    private int uvIndex;
+
+    public float getOffset() {
+        return offset;
+    }
+
+    public void setOffset(float offset) {
+        this.offset = offset;
+    }
+
+    public List<String> getInfoList() {
+        return infoList;
+    }
+
+    public void setInfoList(List<String> infoList) {
+        this.infoList = infoList;
+    }
 
     public List<WeatherItemHour> getHourly() {
         return hourly;
@@ -80,27 +99,27 @@ public class Weather {
         this.icon = icon;
     }
 
-    public float getTemperature() {
+    public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
-    public float getTemperatureMin() {
+    public int getTemperatureMin() {
         return temperatureMin;
     }
 
-    public void setTemperatureMin(float temperatureMin) {
+    public void setTemperatureMin(int temperatureMin) {
         this.temperatureMin = temperatureMin;
     }
 
-    public float getTemperatureMax() {
+    public int getTemperatureMax() {
         return temperatureMax;
     }
 
-    public void setTemperatureMax(float temperatureMax) {
+    public void setTemperatureMax(int temperatureMax) {
         this.temperatureMax = temperatureMax;
     }
 
@@ -120,59 +139,59 @@ public class Weather {
         this.sunsetTime = sunsetTime;
     }
 
-    public float getPrecipProbability() {
+    public int getPrecipProbability() {
         return precipProbability;
     }
 
-    public void setPrecipProbability(float precipProbability) {
+    public void setPrecipProbability(int precipProbability) {
         this.precipProbability = precipProbability;
     }
 
-    public float getHumidity() {
+    public int getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(float humidity) {
+    public void setHumidity(int humidity) {
         this.humidity = humidity;
     }
 
-    public float getWindSpeed() {
+    public int getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(float windSpeed) {
+    public void setWindSpeed(int windSpeed) {
         this.windSpeed = windSpeed;
     }
 
-    public float getApparentTemperature() {
+    public int getApparentTemperature() {
         return apparentTemperature;
     }
 
-    public void setApparentTemperature(float apparentTemperature) {
+    public void setApparentTemperature(int apparentTemperature) {
         this.apparentTemperature = apparentTemperature;
     }
 
-    public float getPrecipIntensity() {
+    public int getPrecipIntensity() {
         return precipIntensity;
     }
 
-    public void setPrecipIntensity(float precipIntensity) {
+    public void setPrecipIntensity(int precipIntensity) {
         this.precipIntensity = precipIntensity;
     }
 
-    public float getPressure() {
+    public int getPressure() {
         return pressure;
     }
 
-    public void setPressure(float pressure) {
+    public void setPressure(int pressure) {
         this.pressure = pressure;
     }
 
-    public float getUvIndex() {
+    public int getUvIndex() {
         return uvIndex;
     }
 
-    public void setUvIndex(float uvIndex) {
+    public void setUvIndex(int uvIndex) {
         this.uvIndex = uvIndex;
     }
 

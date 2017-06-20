@@ -2,11 +2,13 @@ package com.pavelsemak.weatherapp.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.pavelsemak.weatherapp.di.PerActivity;
 import com.pavelsemak.weatherapp.domain.interactor.GetWeather;
 import com.pavelsemak.weatherapp.domain.model.WeatherModel;
 import com.pavelsemak.weatherapp.mapper.WeatherModelMapper;
+import com.pavelsemak.weatherapp.mapper.WeatherTransformer;
 import com.pavelsemak.weatherapp.model.City;
 import com.pavelsemak.weatherapp.model.Weather;
 import com.pavelsemak.weatherapp.wrapper.DataWrapper;
@@ -31,6 +33,9 @@ public class WeatherViewModel extends ViewModel {
     @Inject
     WeatherModelMapper weatherModelMapper;
 
+    @Inject
+    WeatherTransformer weatherTransformer;
+
     public MutableLiveData<DataWrapper<Weather>> getWeather(City city) {
         MutableLiveData<DataWrapper<Weather>> weatherLiveData;
         if (weatherLiveDataMap == null) {
@@ -50,7 +55,8 @@ public class WeatherViewModel extends ViewModel {
         getWeatherUseCase.execute(new DisposableObserver<WeatherModel>() {
             @Override
             public void onNext(@NonNull WeatherModel weatherModel) {
-                weatherLiveData.setValue(new DataWrapper<>(weatherModelMapper.transform(weatherModel), null));
+                weatherLiveData.setValue(new DataWrapper<>(weatherTransformer
+                        .transform(weatherModelMapper.transform(weatherModel)), null));
             }
 
             @Override

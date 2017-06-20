@@ -31,4 +31,8 @@ public class WeatherPagerAdapter extends FragmentStatePagerAdapter {
         this.cityList = cityList;
         notifyDataSetChanged();
     }
+
+    public List<City> getData() {
+        return cityList;
+    }
 }

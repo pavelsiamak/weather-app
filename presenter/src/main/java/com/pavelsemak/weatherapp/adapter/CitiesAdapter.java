@@ -3,6 +3,7 @@ package com.pavelsemak.weatherapp.adapter;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.content.res.Resources;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +14,13 @@ import android.widget.TextView;
 import com.pavelsemak.weatherapp.R;
 import com.pavelsemak.weatherapp.model.City;
 import com.pavelsemak.weatherapp.model.Weather;
+import com.pavelsemak.weatherapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
     private List<City> cityList = new ArrayList<>();
@@ -23,8 +28,11 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     private OnCityItemClickListener onCityItemClickListener;
     private WeatherLiveDataProvider weatherLiveDataProvider;
 
-    public CitiesAdapter(WeatherLiveDataProvider weatherLiveDataProvider) {
+    private Resources resources;
+
+    public CitiesAdapter(WeatherLiveDataProvider weatherLiveDataProvider, Resources resources) {
         this.weatherLiveDataProvider = weatherLiveDataProvider;
+        this.resources = resources;
     }
 
     @Override
@@ -42,7 +50,9 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
         weatherLiveDataProvider.provideLiveWeather(city, new WeatherLiveDataListener() {
             @Override
             public void onWeatherReceived(Weather weather) {
-                holder.temperature.setText(String.valueOf(weather.getTemperature()));
+                holder.temperature.setText(String.valueOf(String
+                        .format(resources.getString(R.string.temperature), weather.getTemperature())));
+                holder.itemTime.setText(Utils.longToTimeString(weather.getTime()));
             }
         });
 
@@ -69,12 +79,15 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView cityNameTextView;
-        public TextView temperature;
-        public ViewHolder(View view) {
+        @BindView(R.id.item_city_name)
+        TextView cityNameTextView;
+        @BindView(R.id.temperature_city_item)
+        TextView temperature;
+        @BindView(R.id.item_time)
+        TextView itemTime;
+        ViewHolder(View view) {
             super(view);
-            cityNameTextView = view.findViewById(R.id.item_city_name);
-            temperature = view.findViewById(R.id.temperature_city_item);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

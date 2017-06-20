@@ -5,9 +5,19 @@ public class WeatherResponse {
     private double latitude;
     private double longitude;
 
+    private float offset;
+
     private WeatherItemResponse currently;
     private WeatherBlockResponse hourly;
     private WeatherBlockResponse daily;
+
+    public float getOffset() {
+        return offset;
+    }
+
+    public void setOffset(float offset) {
+        this.offset = offset;
+    }
 
     public double getLatitude() {
         return latitude;

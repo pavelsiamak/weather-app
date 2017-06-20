@@ -6,9 +6,19 @@ public class WeatherModel {
     private double latitude;
     private double longitude;
 
+    private float offset;
+
     private WeatherItemModel currently;
     private List<WeatherItemModel> hourly;
     private List<WeatherItemModel> daily;
+
+    public float getOffset() {
+        return offset;
+    }
+
+    public void setOffset(float offset) {
+        this.offset = offset;
+    }
 
     public WeatherItemModel getCurrently() {
         return currently;

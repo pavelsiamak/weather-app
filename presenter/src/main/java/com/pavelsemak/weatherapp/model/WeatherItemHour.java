@@ -2,17 +2,44 @@ package com.pavelsemak.weatherapp.model;
 
 public class WeatherItemHour {
 
-    private float precipProbability;
+    private int humidity;
     private long time;
-    private float temperature;
+    private String displayTime;
+    private int temperature;
     private String icon;
+    private boolean isSunset;
+    private boolean isSunrise;
 
-    public float getPrecipProbability() {
-        return precipProbability;
+    public String getDisplayTime() {
+        return displayTime;
     }
 
-    public void setPrecipProbability(float precipProbability) {
-        this.precipProbability = precipProbability;
+    public void setDisplayTime(String displayTime) {
+        this.displayTime = displayTime;
+    }
+
+    public boolean isSunset() {
+        return isSunset;
+    }
+
+    public void setSunset(boolean sunset) {
+        isSunset = sunset;
+    }
+
+    public boolean isSunrise() {
+        return isSunrise;
+    }
+
+    public void setSunrise(boolean sunrise) {
+        isSunrise = sunrise;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
     }
 
     public long getTime() {
@@ -23,11 +50,11 @@ public class WeatherItemHour {
         this.time = time;
     }
 
-    public float getTemperature() {
+    public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 

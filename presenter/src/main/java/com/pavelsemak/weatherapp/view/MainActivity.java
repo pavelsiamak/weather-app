@@ -1,7 +1,10 @@
 package com.pavelsemak.weatherapp.view;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
 import com.pavelsemak.weatherapp.R;
 import com.pavelsemak.weatherapp.WeatherApplication;
 import com.pavelsemak.weatherapp.di.components.ApplicationComponent;
@@ -16,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getApplicationComponent().inject(this);
-        this.initializeInjector();
         setContentView(R.layout.activity_main);
         openWeatherFragment();
+        this.getApplicationComponent().inject(this);
+        this.initializeInjector();
     }
 
     protected ApplicationComponent getApplicationComponent() {

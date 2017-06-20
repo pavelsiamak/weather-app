@@ -22,6 +22,8 @@ public class WeatherResponseMapper {
 
         weatherModel.setCurrently(transform(weatherResponse.getCurrently()));
 
+        weatherModel.setOffset(weatherResponse.getOffset());
+
         if (weatherResponse.getHourly() != null) {
             weatherModel.setHourly(new ArrayList<>());
             for (WeatherItemResponse weatherItemResponse : weatherResponse.getHourly().getData()) {

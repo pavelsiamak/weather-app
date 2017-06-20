@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/appBgColor"
+    android:paddingRight="@dimen/item_city_horizontal_padding"
+    android:paddingLeft="@dimen/item_city_horizontal_padding"
+    android:paddingTop="@dimen/item_city_vertical_padding"
+    android:paddingBottom="@dimen/item_city_vertical_padding">
+
+    <TextView
+        android:id="@+id/item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        tools:text="12:30 PM"
+        app:layout_constraintLeft_toLeftOf="@+id/item_city_name"
+        app:layout_constraintRight_toRightOf="@+id/item_city_name"
+        app:layout_constraintBottom_toTopOf="@+id/item_city_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="0"/>
 
     <TextView
         android:id="@+id/item_city_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="22sp"
-        android:padding="10dip"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        tools:text="Minsk"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/temperature_city_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_time"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
     <TextView
         android:id="@+id/temperature_city_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="16sp"
-        android:padding="10dip"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        tools:text="30\u00B0"
+        app:layout_constraintLeft_toRightOf="@+id/item_city_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

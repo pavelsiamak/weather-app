@@ -4,8 +4,37 @@ public class WeatherItemDay {
     private long time;
     private String icon;
 
-    private float temperatureMin;
-    private float temperatureMax;
+    private int temperatureMin;
+    private int temperatureMax;
+
+    private long sunrise;
+    private long sunset;
+
+    private String dayOfWeek;
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public long getSunrise() {
+        return sunrise;
+    }
+
+    public void setSunrise(long sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public long getSunset() {
+        return sunset;
+    }
+
+    public void setSunset(long sunset) {
+        this.sunset = sunset;
+    }
 
     public long getTime() {
         return time;
@@ -23,19 +52,19 @@ public class WeatherItemDay {
         this.icon = icon;
     }
 
-    public float getTemperatureMin() {
+    public int getTemperatureMin() {
         return temperatureMin;
     }
 
-    public void setTemperatureMin(float temperatureMin) {
+    public void setTemperatureMin(int temperatureMin) {
         this.temperatureMin = temperatureMin;
     }
 
-    public float getTemperatureMax() {
+    public int getTemperatureMax() {
         return temperatureMax;
     }
 
-    public void setTemperatureMax(float temperatureMax) {
+    public void setTemperatureMax(int temperatureMax) {
         this.temperatureMax = temperatureMax;
     }
 }

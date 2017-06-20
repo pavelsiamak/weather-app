@@ -79,7 +79,7 @@ public class CityListFragment extends BaseCityFragment
 
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        citiesAdapter = new CitiesAdapter(this);
+        citiesAdapter = new CitiesAdapter(this, getResources());
         citiesAdapter.setOnCityItemClickListener(this);
         recyclerView.setAdapter(citiesAdapter);
     }
